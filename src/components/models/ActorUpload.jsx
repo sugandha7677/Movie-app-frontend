@@ -30,7 +30,7 @@ export default function ActorUpload({ visible, onClose }) {
       <ActorForm 
         onSubmit={!busy ? handleSubmit : null}
         title='Create New Actor' 
-        btnTitle='create' 
+        btnTitle='Create' 
         busy={busy}/>
     </ModalContainer>
   );

@@ -20,7 +20,7 @@ const ConfirmPassword = () => {
     two: ''
   })
 
-  const [isVerifying, setIsVerifying] = useState(true);
+  const [isVerifying, setIsVerifying] = useState(false);
   const [isValid, setIsValid] = useState(false);
 
   const [searchParams] = useSearchParams();
@@ -50,7 +50,7 @@ const ConfirmPassword = () => {
 
     if (!valid) {
       setIsValid(false);
-      setIsVerifying(false);
+      //setIsVerifying(false);
       return navigate('/auth/reset-password', { replace: true })
     };
 

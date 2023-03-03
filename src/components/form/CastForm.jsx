@@ -5,12 +5,15 @@ import { renderItem } from "../../utils/helper";
 import { useNotification, useSearch } from "../../hooks";
 import { searchActor } from "../../api/actor";
 
+
 // const cast = [{ actor: id, roleAs: "", leadActor: true }];
 const defaultCastInfo = {
   profile: {},
   roleAs: "",
   leadActor: false,
 };
+
+
 export default function CastForm({ onSubmit }) {
   const [castInfo, setCastInfo] = useState({ ...defaultCastInfo });
   const [profiles, setProfiles] = useState([]);
@@ -41,7 +44,7 @@ export default function CastForm({ onSubmit }) {
     onSubmit(castInfo);
     setCastInfo({ ...defaultCastInfo , profile: {name: ''}});
     resetSearch();
-    setProfiles([]);
+    //setProfiles([]);
     
   };
 

@@ -23,3 +23,23 @@ export const renderItem = (result) => {
       </div>
     );
   };
+
+
+  export const getPoster = (posters = []) => {
+    const {length} = posters
+    if(!length) return null;
+
+    // if poster has more than 2 items then selection 2nd poster
+
+    if(length > 2) return posters[2];
+
+    // otherwise the first one
+    return posters[0]
+
+  }
+    ///
+  export const convertReviewCount = (count = 0) => {
+    if (count <= 999) return count;
+  
+    return parseFloat(count / 1000).toFixed(2) + "k";
+  };

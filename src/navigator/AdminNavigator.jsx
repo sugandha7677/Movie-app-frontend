@@ -6,8 +6,11 @@ import Header from "../components/admin/Header";
 import Movies from "../components/admin/Movies";
 import MovieUpload from "../components/admin/MovieUpload";
 import Navbar from "../components/admin/Navbar";
+import SearchMovies from "../components/admin/SearchMovies";
 import ActorUpload from "../components/models/ActorUpload";
 import NotFound from "../components/NotFound";
+
+
 
 export default function AdminNavigator() {
   const [showMovieUploadModal, setShowMovieUploadModal] = useState(false);
@@ -42,10 +45,13 @@ export default function AdminNavigator() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/movies" element={<Movies />} />
             <Route path="/actors" element={<Actors />} />
+            <Route path="/search" element={<SearchMovies />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
+
+      
       <MovieUpload
         visible={showMovieUploadModal}
         onClose={hideMovieUploadModal}

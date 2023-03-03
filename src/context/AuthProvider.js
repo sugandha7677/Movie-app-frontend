@@ -35,7 +35,8 @@ function AuthProvider({children}) {
 
         setAuthInfo({profile: {...user}, isPending: false, isLoggedIn: true, error: "", })
 
-        localStorage.setItem('auth-token', user?.token)
+        // user?.
+        localStorage.setItem('auth-token', user.token)
     }
 
     const isAuth = async () => {
@@ -65,7 +66,7 @@ function AuthProvider({children}) {
         isAuth();
     } , []);
 
-    
+    // handle logout
   return (
     <AuthContext.Provider value = {{authInfo, handleLogin, isAuth , handleLogout}}>
         {children}

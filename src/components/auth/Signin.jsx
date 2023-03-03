@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useState} from 'react'
 import Container from '../Container';
 import FormInput from '../form/FormInput';
 import Submit from '../form/Submit';

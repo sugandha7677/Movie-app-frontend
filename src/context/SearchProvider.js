@@ -13,6 +13,7 @@ const debounce = (func, delay) => {
   };
 };
 
+
 export default function SearchProvider({ children }) {
   const [searching, setSearching] = useState(false);
   const [results, setResults] = useState([]);
@@ -41,7 +42,7 @@ export default function SearchProvider({ children }) {
     setSearching(true);
     if (!query.trim()) {
       updaterFun && updaterFun([]);
-      resetSearch();
+      return resetSearch();
     }
 
     debounceFunc(method, query, updaterFun);

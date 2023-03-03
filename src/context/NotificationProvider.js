@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 export const NotificationContext = createContext();
 
 let timeoutId;
+
 export default function NotificationProvider({ children }) {
   const [notification, setNotification] = useState("");
   const [classes, setClasses] = useState("");

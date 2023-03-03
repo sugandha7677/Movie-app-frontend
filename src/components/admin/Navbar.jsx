@@ -17,18 +17,21 @@ export default function Navbar() {
               <img src="./logo.png" alt="logo" className="h-14 p-2" />
             </Link>
           </li>
+
           <li>
             <NavItem to="/">
               <AiOutlineHome />
               <span>Home</span>
             </NavItem>
           </li>
+
           <li>
             <NavItem to="/movies">
               <BiMoviePlay />
               <span>Movies</span>
             </NavItem>
           </li>
+          
           <li>
             <NavItem to="/actors">
               <FaUserNinja />

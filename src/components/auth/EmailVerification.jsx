@@ -134,9 +134,10 @@ const EmailVerification = () => {
             {otp.map((_, index) => {
               return <input
                 ref={activeOtpIndex === index ? inputRef : null}
-                key={index} type='number'
+                key={index} 
+                type='number'
                 value={otp[index] || ""}
-                onChange={(e) => handleOtpChange(e, index)}
+                onChange={handleOtpChange}
                 onKeyDown={(e) => handleKeyDown(e, index)}
 
                 className='w-12 h-12 border-2 dark:border-dark-subtle border-light-subtle dark:focus:border-white focus:border-primary rounded bg-transparent outline-none text-center dark:text-white text-primary font-semibold text-xl spin-button-none' />

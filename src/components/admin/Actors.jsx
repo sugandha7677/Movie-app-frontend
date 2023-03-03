@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { BsPencilSquare, BsTrash } from "react-icons/bs";
-import { getActors, searchActor } from "../../api/actor";
+import { deleteActor, getActors, searchActor } from "../../api/actor";
 import { useNotification, useSearch } from "../../hooks";
 import AppSearchForm from "../form/AppSearchForm";
+import ConfirmModal from "../models/ConfirmModal";
 import UpdateActor from "../models/UpdateActor";
 import NextAndPrevButton from "../NextAndPrevButton";
+import NotFoundText from "../NotFoundText";
 
 let currentPageNo = 0;
 const limit = 20;
@@ -13,7 +15,9 @@ export default function Actors() {
   const [actors, setActors] = useState([]);
   const [results, setResults] = useState([]);
   const [reachedToEnd, setReachedToEnd] = useState(false);
+  const [busy, setBusy] = useState(false);
   const [showUpdateModal, setShowUpdateModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
   const { updateNotification } = useNotification();
   const { handleSearch, resetSearch, resultNotFound } = useSearch();
@@ -74,6 +78,23 @@ export default function Actors() {
     setActors([...updatedActors]);
   };
 
+  const handleOnDeleteClick = (profile) => {
+    setSelectedProfile(profile);
+    setShowConfirmModal(true);
+  };
+
+  const handleOnDeleteConfirm = async () => {
+    setBusy(true);
+    const { error, message } = await deleteActor(selectedProfile.id);
+    setBusy(false);
+    if (error) return updateNotification("error", error);
+    updateNotification("success", message);
+    hideConfirmModal();
+    fetchActors(currentPageNo);
+  };
+
+  const hideConfirmModal = () => setShowConfirmModal(false);
+
   useEffect(() => {
     fetchActors(currentPageNo);
   }, []);
@@ -86,17 +107,19 @@ export default function Actors() {
             onReset={handleSearchFormReset}
             onSubmit={handleOnSearchSubmit}
             placeholder="Search Actors..."
-            showResetIcon={results.length}
+            showResetIcon={results.length || resultNotFound}
           />
         </div>
-        <h1 className="font-semibold text-2xl text-secondary dark:text-white text">Record not Found</h1>
+        <NotFoundText visible={resultNotFound} text="Record not found" />
+
         <div className="grid grid-cols-4 gap-5">
-          {results.length
+          {results.length || resultNotFound
             ? results.map((actor) => (
                 <ActorProfile
                   profile={actor}
                   key={actor.id}
                   onEditClick={() => handleOnEditClick(actor)}
+                  onDeleteClick={() => handleOnDeleteClick(actor)}
                 />
               ))
             : actors.map((actor) => (
@@ -104,11 +127,12 @@ export default function Actors() {
                   profile={actor}
                   key={actor.id}
                   onEditClick={() => handleOnEditClick(actor)}
+                  onDeleteClick={() => handleOnDeleteClick(actor)}
                 />
               ))}
         </div>
 
-        {!results.length ? (
+        {!results.length && !resultNotFound ? (
           <NextAndPrevButton
             className="mt-5"
             onNextClick={handleOnNextClick}
@@ -116,6 +140,15 @@ export default function Actors() {
           />
         ) : null}
       </div>
+
+      <ConfirmModal
+        visible={showConfirmModal}
+        title="Are you sure?"
+        subtitle="This action will remove this profile permanently!"
+        busy={busy}
+        onConfirm={handleOnDeleteConfirm}
+        onCancel={hideConfirmModal}
+      />
 
       <UpdateActor
         visible={showUpdateModal}
@@ -164,7 +197,7 @@ const ActorProfile = ({ profile, onEditClick, onDeleteClick }) => {
 
         <div className="px-2">
           <h1 className="text-xl text-primary dark:text-white font-semibold whitespace-nowrap">
-            {name}
+            {getName(name)}
           </h1>
           <p className="text-primary dark:text-white opacity-70">
             {about.substring(0, 50)}

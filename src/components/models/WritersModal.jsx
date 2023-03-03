@@ -3,7 +3,8 @@ import ModalContainer from './ModalContainer';
 import { AiOutlineClose } from 'react-icons/ai';
 
 export default function WritersModel({profiles = [], visible, onClose, onRemoveClick}) {
-  return (
+  
+    return (
     <ModalContainer ignoreContainer onClose={onClose} visible={visible}>
 
         <div className='space-y-2  dark:bg-primary bg-white rounded max-w-[40rem] max-h-[35rem] overflow-auto p-2 custom-scroll-bar'>

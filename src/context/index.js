@@ -3,17 +3,20 @@ import AuthProvider from './AuthProvider'
 import ThemeProvider from "./ThemeProvider";
 import NotificationProvider from "./NotificationProvider";
 import SearchProvider from './SearchProvider';
+import MoviesProvider from './MoviesProvider';
 
 
 function ContextProviders({ children }) {
     return (
         <NotificationProvider>
             <SearchProvider>
-            <AuthProvider>
-                <ThemeProvider>
-                    {children}
-                </ThemeProvider>
-            </AuthProvider>
+                <MoviesProvider>
+                    <AuthProvider>
+                        <ThemeProvider>
+                            {children}
+                        </ThemeProvider>
+                    </AuthProvider>
+                </MoviesProvider>
             </SearchProvider>
         </NotificationProvider>
     )

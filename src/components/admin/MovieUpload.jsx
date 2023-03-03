@@ -6,6 +6,8 @@ import { useNotification } from "../../hooks";
 import ModalContainer from "../models/ModalContainer";
 import MovieForm from "./MovieForm";
 
+
+
 export default function MovieUpload({visible, onClose}) {
   const [videoSelected, setVideoSelected] = useState(false);
   const [videoUploaded, setVideoUploaded] = useState(false);
@@ -14,6 +16,13 @@ export default function MovieUpload({visible, onClose}) {
   const [busy, setBusy] = useState(false)
  
   const { updateNotification } = useNotification();
+
+  const resetState = () => {
+    setVideoSelected(false);
+    setVideoUploaded(false)
+    setUploadProgress(0);
+    setVideoInfo({});
+  }
 
   const handleTypeError = (error) => {
     updateNotification("error", error);
@@ -52,10 +61,14 @@ export default function MovieUpload({visible, onClose}) {
     
     setBusy(true)
     data.append('trailer', JSON.stringify(videoInfo))
-    const res = await uploadMovie(data);
-    setBusy(false)
-    console.log(res);
+    const {error, movie} = await uploadMovie(data);
+    setBusy(false);
 
+    if(error) return updateNotification('error', error)
+    console.log(movie);
+
+    updateNotification('success', 'Movie uploded successfully.')
+    resetState()
     onClose()
   }
 
@@ -76,7 +89,7 @@ export default function MovieUpload({visible, onClose}) {
           handleChange={handleChange}
         /> 
         ) : (
-        <MovieForm busy={busy}
+        <MovieForm btnTitle="Upload" busy={busy}
         onSubmit={!busy ? handleSubmit : null}/>
         )}
         </ModalContainer>
@@ -94,10 +107,10 @@ const TrailerSelector = ({ visible, handleChange, onTypeError }) => {
         onTypeError={onTypeError}
         types={["mp4", "avi"]}
       >
-        <div className="w-48 h-48 border border-dashed dark:border-dark-subtle border-light-subtle rounded-full flex flex-col items-center justify-center dark:text-dark-subtle text-secondary cursor-pointer">
+        <label className="w-48 h-48 border border-dashed dark:border-dark-subtle border-light-subtle rounded-full flex flex-col items-center justify-center dark:text-dark-subtle text-secondary cursor-pointer">
           <AiOutlineCloudUpload size={80} />
           <p>Drop your file here!</p>
-        </div>
+        </label>
       </FileUploader>
     </div>
   );

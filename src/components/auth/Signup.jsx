@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 
-
 import { createUser } from "../../api/auth";
 import { useAuth, useNotification } from "../../hooks";
 import { isValidEmail } from "../../utils/helper";

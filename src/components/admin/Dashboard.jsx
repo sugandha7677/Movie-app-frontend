@@ -1,19 +1,48 @@
-import React from 'react';
-import AppInfoBox from '../AppInfoBox';
-import LatestUploads from '../LatestUploads';
-
+import React, { useEffect, useState } from "react";
+import { getAppInfo } from "../../api/admin";
+import { useNotification } from "../../hooks";
+import AppInfoBox from "../AppInfoBox";
+import LatestUploads from "../LatestUploads";
+import MostRatedMovies from "../MostRatedMovies";
 
 export default function Dashboard() {
-  return (
-    <div className="grid grid-cols-3 gap-5 my-5">
+  const [appInfo, setAppInfo] = useState({
+    movieCount: 0,
+    reviewCount: 0,
+    userCount: 0,
+  });
 
-      <AppInfoBox title='Total Uploads' subTitle='100' />
-      <AppInfoBox title='Total Reviews' subTitle='1,500' />
-      <AppInfoBox title='Total Users' subTitle='200' />
+  const { updateNotification } = useNotification();
+
+  const fetchAppInfo = async () => {
+    const { appInfo, error } = await getAppInfo();
+
+    if (error) return updateNotification("error", error);
+
+    setAppInfo({ ...appInfo });
+  };
+
+  useEffect(() => {
+    fetchAppInfo();
+  }, []);
+
+  return (
+    <div className="grid grid-cols-3 gap-5 p-5">
+      <AppInfoBox
+        title="Total Uploads"
+        subTitle={appInfo.movieCount.toLocaleString()}
+      />
+      <AppInfoBox
+        title="Total Reviews"
+        subTitle={appInfo.reviewCount.toLocaleString()}
+      />
+      <AppInfoBox
+        title="Total Users"
+        subTitle={appInfo.userCount.toLocaleString()}
+      />
 
       <LatestUploads />
-
+      <MostRatedMovies />
     </div>
-  )
+  );
 }
-

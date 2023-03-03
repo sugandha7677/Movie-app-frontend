@@ -3,6 +3,7 @@ import { useContext } from "react"
 import { NotificationContext } from "../context/NotificationProvider"
 import { AuthContext } from "../context/AuthProvider"
 import { SearchContext } from "../context/SearchProvider"
+import { MovieContext } from "../context/MoviesProvider"
 
 
 
@@ -19,3 +20,5 @@ export const useAuth = () =>{
 }
 
 export const useSearch = () => useContext(SearchContext);
+
+export const useMovies = () => useContext(MovieContext);
